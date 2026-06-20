@@ -1,0 +1,753 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Mohammad Hosein Noormohammadian | Frontend & Backend Web Developer Portfolio">
+    <title data-en="Hoseinoori | Web Developer" data-fa="محمدحسین نورمحمدیان | توسعه‌دهنده وب">Mohammad Hosein Noormohammadian</title>
+    <style>
+      /* ============================================================
+         RESET & NEON GLASS VARIABLES
+         ============================================================ */
+      *, *::before, *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap');
+
+      :root {
+        --bg-base: #020205;
+        --bg-glass: rgba(10, 10, 18, 0.45);
+        --bg-glass-hover: rgba(25, 20, 35, 0.6);
+        --border-glass: rgba(255, 110, 0, 0.25);
+        --border-glass-glow: rgba(255, 110, 0, 0.6);
+
+        /* --- Neon Accents --- */
+        --accent: #ff6e00; 
+        --accent-dim: #b34d00;
+        --accent-glow: rgba(255, 110, 0, 0.25);
+        --accent2: #ffaa00;
+        --accent2-glow: rgba(255, 170, 0, 0.15);
+
+        /* --- Text --- */
+        --txt-primary: #fff2e6;
+        --txt-secondary: #b3a498;
+        --txt-muted: #66594f;
+
+        --blur-heavy: blur(16px);
+        --font-main: 'Segoe UI', Arial, sans-serif;
+        --font-fa: 'Vazirmatn', Arial, sans-serif;
+        --font-mono: 'Consolas', 'Courier New', monospace;
+
+        --max-w: 1200px;
+        --section-pad: 100px 0;
+        --nav-h: 72px;
+      }
+
+      html {
+        scroll-behavior: smooth;
+        font-size: 16px;
+      }
+
+      body {
+        background: var(--bg-base);
+        color: var(--txt-primary);
+        font-family: var(--font-main);
+        line-height: 1.7;
+        overflow-x: hidden;
+        position: relative;
+      }
+
+      body.rtl {
+        font-family: var(--font-fa);
+        direction: rtl;
+      }
+
+      /* ============================================================
+         DYNAMIC FULL CODE BACKGROUND
+         ============================================================ */
+      .code-bg-container {
+        position: fixed;
+        inset: 0;
+        z-index: -2;
+        pointer-events: none;
+        overflow: hidden;
+        opacity: 0.11;
+      }
+
+      .code-bg-scroll {
+        position: absolute;
+        width: 100%;
+        top: 0;
+        left: 0;
+        font-family: var(--font-mono);
+        font-size: clamp(0.7rem, 1.2vw, 1rem);
+        line-height: 1.5;
+        color: var(--accent);
+        white-space: pre-wrap;
+        word-break: break-all;
+        padding: 30px;
+        transform: translateY(0);
+        transition: transform 0.2s ease-out;
+      }
+
+      .noise {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        pointer-events: none;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+        opacity: 0.5;
+      }
+
+      /* ============================================================
+         NAVBAR GLASSMORPHISM
+         ============================================================ */
+      #navbar {
+        position: fixed;
+        top: 0; left: 0; right: 0;
+        height: var(--nav-h);
+        z-index: 1000;
+        background: transparent;
+        transition: all 0.3s ease;
+        border-bottom: 1px solid transparent;
+      }
+
+      #navbar.scrolled {
+        background: rgba(5, 5, 10, 0.6);
+        backdrop-filter: var(--blur-heavy);
+        -webkit-backdrop-filter: var(--blur-heavy);
+        border-bottom: 1px solid var(--border-glass);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+      }
+
+      .nav-inner {
+        max-width: var(--max-w); margin: 0 auto; padding: 0 24px;
+        height: 100%; display: flex; align-items: center; justify-content: space-between;
+      }
+
+      .logo {
+        font-family: var(--font-mono); font-size: 1.35rem; font-weight: 700;
+        color: var(--accent); text-decoration: none; text-shadow: 0 0 10px var(--accent-glow);
+      }
+
+      .nav-links { display: flex; list-style: none; gap: 8px; }
+      .nav-links a {
+        color: var(--txt-secondary); text-decoration: none; font-size: .875rem;
+        font-weight: 500; padding: 8px 16px; border-radius: 8px; transition: all 0.25s;
+      }
+      .nav-links a:hover, .nav-links a.active {
+        color: var(--txt-primary); background: var(--accent-glow);
+        box-shadow: inset 0 0 8px rgba(255,110,0,0.2);
+      }
+
+      .nav-actions { display: flex; align-items: center; gap: 12px; }
+      .lang-btn {
+        background: rgba(255,110,0,0.1); border: 1px solid var(--border-glass);
+        color: var(--accent); font-size: .8rem; font-weight: 700; padding: 6px 14px;
+        border-radius: 20px; cursor: pointer; transition: all 0.2s; backdrop-filter: var(--blur-heavy);
+      }
+      .lang-btn:hover { background: var(--accent); color: var(--bg-base); box-shadow: 0 0 15px var(--accent); }
+
+      .hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; z-index: 1100; }
+      .hamburger span { display: block; width: 22px; height: 2px; background: var(--txt-secondary); transition: all 0.25s; }
+      .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+      .hamburger.open span:nth-child(2) { opacity: 0; }
+      .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+      /* ============================================================
+         HERO SECTION
+         ============================================================ */
+      .hero {
+        min-height: 100vh; padding: calc(var(--nav-h) + 60px) 24px 80px;
+        max-width: var(--max-w); margin: 0 auto;
+        display: grid; grid-template-columns: 1fr 420px; align-items: center; gap: 60px; position: relative;
+      }
+
+      .avatar-photo {
+  width: 260px;
+  height: 260px;
+  border-radius: 24px; /* هماهنگ با انحنای کارت‌های سایت */
+  overflow: hidden;
+  border: 2px solid var(--border-glass);
+  background: var(--bg-glass);
+  backdrop-filter: var(--blur-heavy);
+  -webkit-backdrop-filter: var(--blur-heavy);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* برای اینکه عکس بدون دفرمه شدن کل باکس را پر کند */
+}
+
+      .hero-content { z-index: 1; }
+      .hero-greeting { font-size: .85rem; font-weight: 600; letter-spacing: 2px; color: var(--accent); margin-bottom: 12px; }
+      .hero-name { font-size: clamp(2.2rem, 4.5vw, 3.4rem); font-weight: 800; line-height: 1.1; margin-bottom: 16px; }
+      
+      .hero-role { font-size: clamp(1rem, 2.2vw, 1.3rem); font-family: var(--font-mono); color: var(--accent2); margin-bottom: 24px; min-height: 40px; }
+      .cursor-blink { animation: blink .9s step-end infinite; color: var(--accent); font-weight: bold; }
+      @keyframes blink { 50% { opacity: 0; } }
+
+      .hero-desc { max-width: 520px; color: var(--txt-secondary); font-size: 0.98rem; margin-bottom: 36px; }
+      .hero-cta { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 40px; }
+
+      .btn-primary {
+        display: inline-flex; align-items: center; gap: 8px; background: var(--accent); color: #fff !important;
+        padding: 12px 28px; border-radius: 8px; font-size: .9rem; font-weight: 600; text-decoration: none;
+        border: none; cursor: pointer; transition: all 0.25s ease; box-shadow: 0 4px 20px rgba(255, 110, 0, 0.4);
+      }
+      .btn-primary:hover { background: #ff8c00; transform: translateY(-2px); box-shadow: 0 0 25px var(--accent); }
+
+      .btn-ghost {
+        display: inline-flex; align-items: center; gap: 8px; background: var(--bg-glass);
+        backdrop-filter: var(--blur-heavy); -webkit-backdrop-filter: var(--blur-heavy); color: var(--txt-primary) !important;
+        padding: 12px 28px; border-radius: 8px; font-size: .9rem; font-weight: 600; text-decoration: none;
+        border: 1px solid var(--border-glass); transition: all 0.25s ease;
+      }
+      .btn-ghost:hover { background: var(--accent-glow); border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 0 15px var(--accent-glow); }
+
+      /* RADICAL AVATAR LAB */
+      .hero-avatar { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+      .avatar-cyber-cube {
+        width: 260px; height: 260px; border-radius: 24px;
+        background: linear-gradient(135deg, rgba(255, 110, 0, 0.15), rgba(10,10,20,0.6));
+        border: 2px solid var(--border-glass); backdrop-filter: var(--blur-heavy);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.5), inset 0 0 20px rgba(255,110,0,0.2);
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        position: relative; overflow: hidden; transition: all 0.5s ease;
+      }
+      .avatar-cyber-cube:hover { border-color: var(--accent); box-shadow: 0 0 30px rgba(255,110,0,0.4); transform: scale(1.02) rotate(1deg); }
+      .cube-glow-line {
+        position: absolute; width: 150%; height: 2px; background: linear-gradient(90deg, transparent, var(--accent), transparent);
+        top: 20%; animation: scanLine 4s linear infinite; opacity: 0.7;
+      }
+      @keyframes scanLine { 0% { top: -10%; } 100% { top: 110%; } }
+      .cyber-icon { font-size: 4.5rem; filter: drop-shadow(0 0 15px var(--accent)); animation: floatIcon 3s ease-in-out infinite; }
+      @keyframes floatIcon { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+      .hologram-text { font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent2); margin-top: 12px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.8; }
+
+      .status-badge {
+        margin-top: 24px; z-index: 2; display: flex; align-items: center; gap: 8px;
+        background: var(--bg-glass); backdrop-filter: var(--blur-heavy); border: 1px solid var(--border-glass); border-radius: 20px; padding: 6px 16px; font-size: .8rem;
+      }
+      .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #ff6e00; box-shadow: 0 0 8px #ff6e00; }
+
+      /* ============================================================
+         SECTIONS & BOXES STRUCTURE
+         ============================================================ */
+      .section { padding: var(--section-pad); position: relative; }
+      .section-inner { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
+      
+      .title-container { display: flex; flex-direction: column; align-items: flex-start; margin-bottom: 56px; }
+      .section-tag {
+        display: inline-block; font-size: .75rem; font-weight: 700; letter-spacing: 2px;
+        color: var(--accent); border: 1px solid var(--border-glass); background: rgba(255,110,0,0.1);
+        padding: 4px 14px; border-radius: 20px; margin-bottom: 16px; backdrop-filter: var(--blur-heavy);
+      }
+
+      .section-title { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 800; width: 100%; position: relative; padding-bottom: 14px; }
+      .section-title::after {
+        content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+        background: linear-gradient(90deg, var(--accent) 0%, var(--border-glass) 50%, transparent 100%);
+      }
+      .rtl .section-title::after { background: linear-gradient(-90deg, var(--accent) 0%, var(--border-glass) 50%, transparent 100%); }
+
+      .about-grid { display: grid; grid-template-columns: 1fr 360px; gap: 50px; align-items: start; }
+      .about-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 36px; }
+
+      .glass-card {
+        background: var(--bg-glass); backdrop-filter: var(--blur-heavy); -webkit-backdrop-filter: var(--blur-heavy);
+        border: 1px solid var(--border-glass); border-radius: 16px; padding: 28px;
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      }
+      .glass-card:hover { border-color: var(--border-glass-glow); box-shadow: 0 0 25px var(--accent-glow); transform: translateY(-4px); }
+
+      .stat-num { font-size: 1.8rem; font-weight: 800; color: var(--accent); display: block; font-family: var(--font-mono); }
+      .stat-label { font-size: .82rem; color: var(--txt-secondary); }
+
+      /* Technical Arsenal - تفکیک کاملاً ردیفی و درصد جدید مهارت‌ها */
+      .skills-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+      .skills-grid .glass-card:nth-child(5) { grid-column: span 2; }
+      .skill-category h3 { color: var(--accent); font-size: 0.95rem; margin-bottom: 22px; text-transform: uppercase; letter-spacing: 1px; }
+      .skill-items { display: flex; flex-direction: column; gap: 16px; }
+      .skill-item { display: grid; grid-template-columns: 140px 1fr 45px; align-items: center; gap: 12px; font-size: 0.9rem; }
+      
+      .skill-bar { height: 6px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden; }
+      .skill-fill {
+        height: 100%; width: 0; background: linear-gradient(90deg, var(--accent-dim), var(--accent));
+        box-shadow: 0 0 8px var(--accent); border-radius: 4px; transition: width 1.5s cubic-bezier(0.1, 0.8, 0.2, 1);
+      }
+      .skill-fill.animated { width: var(--w); }
+
+      /* Projects Architecture */
+      .projects-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+      .project-card.featured { grid-column: span 2; border-color: rgba(255, 110, 0, 0.35); }
+      .project-top { display: flex; justify-content: space-between; margin-bottom: 15px; }
+      .project-top a { color: var(--accent2); text-decoration: none; transition: color 0.2s; }
+      .project-top a:hover { color: var(--accent); text-shadow: 0 0 8px var(--accent-glow); }
+      .project-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 15px; }
+      .project-tags span {
+        font-size: .75rem; background: rgba(255,110,0,0.08);
+        border: 1px solid var(--border-glass); padding: 4px 12px; border-radius: 20px; color: var(--accent2); font-family: var(--font-mono);
+      }
+
+      /* Contact Layer */
+      .contact-grid { display: grid; grid-template-columns: 1fr; }
+      .contact-channels { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+      .channel { display: flex; align-items: center; gap: 16px; text-decoration: none; color: inherit; }
+
+      /* Footer Layout Adjustments */
+      .footer { border-top: 1px solid var(--border-glass); padding: 40px 24px; background: rgba(2,2,5,0.8); backdrop-filter: var(--blur-heavy); }
+      .footer-inner { max-width: var(--max-w); margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+
+      /* ============================================================
+         RESPONSIVE CONTROLS
+         ============================================================ */
+      @media (max-width: 960px) {
+        .hero { grid-template-columns: 1fr; text-align: center; }
+        .hero-content { order: 2; } .hero-avatar { order: 1; }
+        .hero-desc, .hero-cta { justify-content: center; margin: 0 auto 30px; }
+        .about-grid, .skills-grid, .projects-grid, .contact-channels { grid-template-columns: 1fr; }
+        .skills-grid .glass-card:nth-child(5) { grid-column: span 1; }
+        .project-card.featured { grid-column: span 1; }
+      }
+
+      @media (max-width: 720px) {
+        .nav-links {
+          position: fixed; top: var(--nav-h); left: 0; right: 0; bottom: 0;
+          background: rgba(5, 5, 10, 0.96); backdrop-filter: var(--blur-heavy); -webkit-backdrop-filter: var(--blur-heavy);
+          flex-direction: column; align-items: center; justify-content: center; padding: 40px 0;
+          transform: translateY(-150%); opacity: 0; pointer-events: none; transition: all 0.4s cubic-bezier(0.1, 0.8, 0.2, 1); gap: 24px;
+        }
+        .nav-links.open { transform: translateY(0); opacity: 1; pointer-events: auto; }
+        .hamburger { display: flex; }
+        .about-stats { grid-template-columns: 1fr; }
+        .footer-inner { flex-direction: column; gap: 14px; text-align: center; }
+      }
+    </style>
+  </head>
+  <body>
+
+    <!-- بک‌گراند کدهای ۱۰۰٪ زنده و کامل پروژه جدید -->
+    <div class="code-bg-container">
+      <div class="code-bg-scroll" id="codeBg">
+&lt;doctype html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8" /&gt;
+  &lt;title&gt;Mohammad Hosein Noormohammadian Portfolio&lt;/title&gt;
+  &lt;style&gt;
+    :root {
+      --bg-base: #020205;
+      --bg-glass: rgba(10, 10, 18, 0.45);
+      --accent: #ff6e00;
+    }
+    body {
+      background: var(--bg-base);
+      backdrop-filter: var(--blur-heavy);
+    }
+    .skill-fill {
+      height: 100%; width: 0; 
+      background: linear-gradient(90deg, #b34d00, #ff6e00);
+      transition: width 1.5s ease;
+    }
+    .section-title {
+      width: 100%;
+      position: relative;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;nav id="navbar"&gt;
+    &lt;div class="nav-inner"&gt;
+      &lt;a class="logo"&gt;&lt;hoseinoori&gt;&lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/nav&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+      </div>
+    </div>
+
+    <div class="noise"></div>
+
+    <!-- ░░ NAVBAR ░░ -->
+    <nav id="navbar">
+      <div class="nav-inner">
+        <!-- تغییر لوگو از <hoseinoori/> به <hoseinoori> -->
+        <a class="logo" href="#">&lt;hoseinoori&gt;</a>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="#home" data-en="Home" data-fa="خانه">Home</a></li>
+          <li><a href="#about" data-en="About" data-fa="درباره من">About</a></li>
+          <li><a href="#skills" data-en="Skills" data-fa="مهارت‌ها">Skills</a></li>
+          <li><a href="#projects" data-en="Projects" data-fa="پروژه‌ها">Projects</a></li>
+          <li><a href="#contact" data-en="Contact" data-fa="تماس">Contact</a></li>
+        </ul>
+        <div class="nav-actions">
+          <button class="lang-btn" id="langToggle">
+            <span id="langLabel">FA</span>
+          </button>
+          <button class="hamburger" id="hamburger" aria-label="Menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ░░ HERO ░░ -->
+    <section id="home" class="hero">
+      <div class="hero-content">
+        <p class="hero-greeting" data-en="Console.log('Welcome');" data-fa="سلام، به فضای توسعه من خوش آمدید">Console.log('Welcome');</p>
+        <h1 class="hero-name" data-en="Mohammad Hosein Noormohammadian" data-fa="محمدحسین نورمحمدیان">Mohammad Hosein Noormohammadian</h1>
+        <div class="hero-role">
+          <span id="typingTarget"></span>
+          <span class="cursor-blink">|</span>
+        </div>
+        <p class="hero-desc" data-en="I am a dedicated Frontend Developer specializing in creating sleek, highly responsive user interfaces. I also possess localized core experience in server logic and backend services to keep architectural integrations seamless." data-fa="من یک توسعه‌دهنده فرانت‌اَند مسلط هستم که تمرکز اصلی‌ام بر خلق رابط‌های کاربری مدرن و تعاملی است. همچنین به مقدار نیاز سابقه کار و دانش عملی در پیاده‌سازی منطق بک‌اَند و APIها دارم.">
+          I am a dedicated Frontend Developer specializing in creating sleek, highly responsive user interfaces.
+        </p>
+        <div class="hero-cta">
+          <a href="rezome-0.pdf" target="_blank" class="btn-primary" data-en="Download Resume" data-fa="دریافت فایل رزومه">Download Resume</a>
+          <a href="#contact" class="btn-ghost" data-en="Get In Touch" data-fa="ارتباط با من">Get In Touch</a>
+        </div>
+      </div>
+<div class="hero-avatar">
+  <div class="avatar-photo avatar-cyber-cube">
+    <div class="cube-glow-line"></div>
+    <img src="photo_2026-05-30_23-18-03.jpg" alt="Mohammad Hosein Noormohammadian">
+  </div>
+  <div class="status-badge">
+    <span class="status-dot"></span>
+    <span data-en="Ready to Build" data-fa="آماده برای چالش‌های جدید">Ready to Build</span>
+  </div>
+</div>
+    </section>
+
+    <!-- ░░ ABOUT ░░ -->
+    <section id="about" class="section">
+      <div class="section-inner">
+        <div class="title-container">
+          <div class="section-tag" data-en="Inside Code" data-fa="توسعه‌دهنده">Inside Code</div>
+          <h2 class="section-title" data-en="About Me" data-fa="درباره من">About Me</h2>
+        </div>
+        <div class="about-grid">
+          <div class="about-text">
+            <p data-en="Focused on creating fluid, pixel-perfect layouts using structural HTML, responsive CSS systems, and modern JavaScript engines. Experienced in optimizing frontends with utilities like Tailwind CSS, backed by server-side data routing and SQLite management." data-fa="تخصص اصلی من توسعه فرانت‌اَند، کار با جاوااسکریپت و فریم‌ورک Tailwind است. علاوه بر رابط کاربری، تا حدودی در توسعه وب بک‌اَند با پایتون و پیاده‌سازی سرویس‌های RESTful تجربه عملی دارم.">Focused on creating fluid, pixel-perfect layouts using structural frontend tools.</p>
+            <div class="about-stats">
+              <div class="glass-card">
+                <span class="stat-num">3</span>
+                <span class="stat-label" data-en="Total Projects" data-fa="تعداد پروژه‌ها">Total Projects</span>
+              </div>
+              <div class="glass-card">
+                <span class="stat-num">100%</span>
+                <span class="stat-label" data-en="Responsive Mind" data-fa="طراحی واکنش‌گرا">Responsive Mind</span>
+              </div>
+            </div>
+          </div>
+          <div class="glass-card">
+            <h3 style="color:var(--accent); margin-bottom:15px;" data-en="General Info" data-fa="مشخصات عمومی">General Info</h3>
+            <p style="font-size:0.95rem; color:var(--txt-secondary); margin-bottom: 8px;">strong>📍 Location:</strong> Qom, Iran</p>
+            <p style="font-size:0.95rem; color:var(--txt-secondary); margin-bottom: 8px;"><strong>🎓 Education:</strong> Computer Engineering</p>
+            <p style="font-size:0.85rem; color:var(--txt-muted);" data-en="Tehran University (Farabi College)" data-fa="دانشکدگان فارابی دانشگاه تهران">Tehran University (Farabi College)</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ░░ SKILLS ░░ -->
+    <section id="skills" class="section">
+      <div class="section-inner">
+        <div class="title-container">
+          <div class="section-tag" data-en="Core Stack" data-fa="تکنولوژی‌ها">Core Stack</div>
+          <h2 class="section-title" data-en="Technical Arsenal" data-fa="سطح ابزارها و مهارت‌ها">My Technical Arsenal</h2>
+        </div>
+        <div class="skills-grid">
+          <!-- ۱. زبان‌ها با درصدهای آپدیت شده جدید -->
+          <div class="glass-card skill-category">
+            <h3 data-en="Languages" data-fa="زبان‌ها">Languages</h3>
+            <div class="skill-items">
+              <div class="skill-item"><span>HTML5 / CSS3</span><div class="skill-bar"><div class="skill-fill" style="--w: 90%"></div></div><span>90%</span></div>
+              <div class="skill-item"><span>JavaScript (ES6+)</span><div class="skill-bar"><div class="skill-fill" style="--w: 80%"></div></div><span>80%</span></div>
+              <div class="skill-item"><span>Python</span><div class="skill-bar"><div class="skill-fill" style="--w: 85%"></div></div><span>85%</span></div>
+              <div class="skill-item"><span>C++</span><div class="skill-bar"><div class="skill-fill" style="--w: 95%"></div></div><span>95%</span></div>
+              <div class="skill-item"><span>SQL</span><div class="skill-bar"><div class="skill-fill" style="--w: 75%"></div></div><span>75%</span></div>
+            </div>
+          </div>
+          <!-- ۲. فریم‌ورک‌ها با درصدهای آپدیت شده جدید -->
+          <div class="glass-card skill-category">
+            <h3 data-en="Frameworks & Styles" data-fa="فریم‌ورک‌ها و ظاهر">Frameworks & Styles</h3>
+            <div class="skill-items">
+              <div class="skill-item"><span>Tailwind CSS</span><div class="skill-bar"><div class="skill-fill" style="--w: 80%"></div></div><span>80%</span></div>
+              <div class="skill-item"><span>REST API Design</span><div class="skill-bar"><div class="skill-fill" style="--w: 75%"></div></div><span>75%</span></div>
+            </div>
+          </div>
+          <!-- ۳. پایگاه‌های داده با درصدهای آپدیت شده جدید -->
+          <div class="glass-card skill-category">
+            <h3 data-en="Databases" data-fa="پایگاه‌های داده">Databases</h3>
+            <div class="skill-items">
+              <div class="skill-item"><span>SQLite</span><div class="skill-bar"><div class="skill-fill" style="--w: 85%"></div></div><span>85%</span></div>
+            </div>
+          </div>
+          <!-- ۴. ابزارها -->
+          <div class="glass-card skill-category">
+            <h3 data-en="Tools & Platforms" data-fa="ابزارها و پلتفرم‌ها">Tools & Platforms</h3>
+            <div class="skill-items">
+              <div class="skill-item"><span>Git & GitHub</span><div class="skill-bar"><div class="skill-fill" style="--w: 80%"></div></div><span>80%</span></div>
+              <div class="skill-item"><span>Linux Environment</span><div class="skill-bar"><div class="skill-fill" style="--w: 70%"></div></div><span>70%</span></div>
+            </div>
+          </div>
+          <!-- ۵. در حال یادگیری با درصدهای آپدیت شده جدید -->
+          <div class="glass-card skill-category">
+            <h3 data-en="Currently Learning" data-fa="در حال یادگیری">Currently Learning</h3>
+            <div class="skill-items">
+              <div class="skill-item"><span>React Framework</span><div class="skill-bar"><div class="skill-fill" style="--w: 20%"></div></div><span>20%</span></div>
+              <div class="skill-item"><span>Django</span><div class="skill-bar"><div class="skill-fill" style="--w: 5%"></div></div><span>5%</span></div>
+              <div class="skill-item"><span>PostgreSQL</span><div class="skill-bar"><div class="skill-fill" style="--w: 15%"></div></div><span>15%</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ░░ PROJECTS ░░ -->
+    <section id="projects" class="section">
+      <div class="section-inner">
+        <div class="title-container">
+          <div class="section-tag" data-en="Log" data-fa="پورتفولیو">Log</div>
+          <h2 class="section-title" data-en="Ecosystem Applications" data-fa="پروژه‌های شاخص">Featured Ecosystems</h2>
+        </div>
+        <div class="projects-grid">
+          <!-- لینک گیت‌هاب پروژه فیدبک اضافه شد -->
+          <div class="glass-card project-card featured">
+            <div class="project-top">
+              <span style="font-size:1.4rem">🌟</span>
+              <a href="https://github.com/hoseinoori/taskOfBasalam_feedback" target="_blank" style="color:var(--accent2); font-weight:600;">GitHub 🔗</a>
+            </div>
+            <h3>taskOfBasalam_feedback</h3>
+            <p data-en="Designed and built a highly responsive layout system utilizing Tailwind CSS for feedback data tracking. Implemented user interaction flows and attached it seamlessly to relational SQLite nodes." data-fa="طراحی و توسعه کامل رابط کاربری بهینه و شیشه‌ای برای سیستم مدیریت بازخورد با تکیه بر استایل‌های تفکیکی Tailwind و برنامه‌نویسی پایتون.">Designed and built a highly responsive layout system utilizing Tailwind CSS.</p>
+            <div class="project-tags">
+              <span>Tailwind CSS</span><span>JavaScript</span><span>Python</span><span>SQLite</span>
+            </div>
+          </div>
+          <!-- لینک گیت‌هاب پروژه کتابخانه اضافه شد -->
+          <div class="glass-card project-card">
+            <div class="project-top">
+              <span style="font-size:1.4rem">📚</span>
+              <a href="https://github.com/hoseinoori/Library-management-UT" target="_blank" style="font-weight:600;">GitHub 🔗</a>
+            </div>
+            <h3>Library-management-UT</h3>
+            <p data-en="A centralized library management architecture engineered for University of Tehran database tasks, focusing on clean administrative control flows." data-fa="سیستم جامع مدیریت و کنترل فرآیندهای کتابخانه‌ای که به عنوان پروژه دانشگاهی برای دانشگاه تهران توسعه داده شده است.">A centralized library management architecture engineered for University of Tehran.</p>
+            <div class="project-tags">
+              <span>Python</span><span>Academic Core</span><span>SQL</span>
+            </div>
+          </div>
+          <!-- تغییر وضعیت تگ پروژه فروشگاهی تمرینی تیمی به Active -->
+          <div class="glass-card project-card">
+            <div class="project-top">
+              <span style="font-size:1.4rem">🛒</span>
+              <span style="color:var(--accent)">Active</span>
+            </div>
+            <h3 data-en="Collaborative E-Commerce Site" data-fa="پروژه وب‌سایت فروشگاهی">Collaborative E-Commerce Site</h3>
+            <p data-en="A joint training e-commerce platform where I architect the entire client experience with modern React stacks, while a teammate manages backend endpoints." data-fa="یک وب‌سایت فروشگاهی تمرینی که به صورت تیمی و مشترک در حال توسعه است؛ پیاده‌سازی کامل بخش فرانت‌اَند با من است و توسعه بک‌اَند توسط همکارم انجام می‌شود.">A joint training e-commerce platform building the client side using React.</p>
+            <div class="project-tags">
+              <span>React</span><span>Tailwind CSS</span><span>JavaScript</span><span>HTML / CSS</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ░░ CONTACT ░░ -->
+    <section id="contact" class="section">
+      <div class="section-inner">
+        <div class="title-container">
+          <div class="section-tag" data-en="Ping" data-fa="ارتباط">Ping</div>
+          <h2 class="section-title" data-en="Get In Touch" data-fa="تماس با من">Get In Touch</h2>
+        </div>
+        <div class="contact-grid">
+          <div class="contact-info">
+            <p data-en="Open for backend, frontend, and web infrastructure development opportunities." data-fa="آماده برای دریافت موقعیت‌های کاری جدید، پروژه‌ها و چالش‌های دنیای توسعه وب.">Open for software engineering and development collaboration.</p>
+            <div class="contact-channels">
+              <a href="mailto:hosein86noori@gmail.com" class="glass-card channel">
+                <span>📧</span>
+                <div>
+                  <span style="font-size:0.75rem; color:var(--txt-muted)">EMAIL</span>
+                  <p>hosein86noori@gmail.com</p>
+                </div>
+              </a>
+              <a href="https://t.me/hoseinoori" class="glass-card channel">
+                <span>💬</span>
+                <div>
+                  <span style="font-size:0.75rem; color:var(--txt-muted)">TELEGRAM</span>
+                  <p>@hoseinoori</p>
+                </div>
+              </a>
+              <a href="https://linkedin.com/in/hoseinoori" target="_blank" class="glass-card channel">
+                <span>🔗</span>
+                <div>
+                  <span style="font-size:0.75rem; color:var(--txt-muted)">LINKEDIN</span>
+                  <p>in/hoseinoori</p>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ░░ FOOTER ░░ -->
+    <footer class="footer">
+      <div class="footer-inner">
+        <p>By hoseinoori - 2026</p>
+        <!-- اضافه شدن تگ بسته‌شده در سمت راست بخش فوتر -->
+        <p style="font-family:var(--font-mono); color:var(--accent); font-weight:bold;">&lt;/hoseinoori&gt;</p>
+      </div>
+    </footer>
+
+    <!-- ============================================================
+         JAVASCRIPT ENGINE (LOGIC & INTERACTION)
+         ============================================================ */ -->
+    <script>
+      (function () {
+        'use strict';
+
+        let currentLang = localStorage.getItem('portfolio-lang') || 'en';
+
+        const navbar = document.getElementById('navbar');
+        const navLinks = document.getElementById('navLinks');
+        const hamburger = document.getElementById('hamburger');
+        const langToggle = document.getElementById('langToggle');
+        const langLabel = document.getElementById('langLabel');
+        const codeBg = document.getElementById('codeBg');
+        const htmlEl = document.documentElement;
+        const body = document.body;
+
+        /* LANGUAGE LOADER */
+        function applyLang(lang) {
+          currentLang = lang;
+          localStorage.setItem('portfolio-lang', lang);
+
+          if (lang === 'fa') {
+            htmlEl.setAttribute('lang', 'fa');
+            htmlEl.setAttribute('dir', 'rtl');
+            body.classList.add('rtl');
+            langLabel.textContent = 'EN';
+          } else {
+            htmlEl.setAttribute('lang', 'en');
+            htmlEl.setAttribute('dir', 'ltr');
+            body.classList.remove('rtl');
+            langLabel.textContent = 'FA';
+          }
+
+          document.querySelectorAll('[data-en][data-fa]').forEach(el => {
+            el.textContent = el.dataset[lang];
+          });
+        }
+
+        langToggle.addEventListener('click', () => {
+          applyLang(currentLang === 'en' ? 'fa' : 'en');
+          roleIdx = 0; charIdx = 0; deleting = false;
+        });
+
+        applyLang(currentLang);
+
+        /* NAVBAR & BACKGROUND CODE SCROLL CONTROL */
+        window.addEventListener('scroll', () => {
+          if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+          } else {
+            navbar.classList.remove('scrolled');
+          }
+
+          const scrolled = window.scrollY;
+          codeBg.style.transform = `translateY(${scrolled * -0.16}px)`;
+        }, { passive: true });
+
+        /* HAMBURGER MENU FIX FOR RESISTANCE */
+        hamburger.addEventListener('click', () => {
+          const open = navLinks.classList.toggle('open');
+          hamburger.classList.toggle('open', open);
+        });
+
+        navLinks.querySelectorAll('a').forEach(a => {
+          a.addEventListener('click', () => {
+            navLinks.classList.remove('open');
+            hamburger.classList.remove('open');
+          });
+        });
+
+        /* SKILLS INTERSECTION OBSERVER */
+        const skillObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.querySelectorAll('.skill-fill').forEach(bar => {
+                bar.classList.add('animated');
+              });
+              skillObserver.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.05 });
+
+        document.querySelectorAll('.skill-category').forEach(cat => skillObserver.observe(cat));
+
+        /* SMOOTH ANCHOR MOVEMENT */
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
+          link.addEventListener('click', (e) => {
+            const target = document.querySelector(link.getAttribute('href'));
+            if (!target) return;
+            e.preventDefault();
+            const offset = target.getBoundingClientRect().top + window.scrollY - 72;
+            window.scrollTo({ top: offset, behavior: 'smooth' });
+          });
+        });
+
+        /* TYPING ENGINE USING GENUINE HTML TAG LOGS */
+        const rolesEN = [
+          '<h1>Frontend Specialist</h1>',
+          '<h3>const focus = "UI/UX";</h3>',
+          '<p>Knowledge in REST APIs</p>'
+        ];
+        const rolesFA = [
+          '<h1>متخصص فرانت‌اَند</h1>',
+          '<h3>const focus = "رابط‌کاربری";</h3>',
+          '<p>آشنایی نسبی با پایگاه‌داده و بک‌اَند</p>'
+        ];
+        
+        const typingTarget = document.getElementById('typingTarget');
+        let roleIdx = 0, charIdx = 0, deleting = false;
+
+        function typeRole() {
+          if (!typingTarget) return;
+          const list = currentLang === 'fa' ? rolesFA : rolesEN;
+          const phrase = list[roleIdx % list.length];
+
+          if (!deleting) {
+            typingTarget.textContent = phrase.slice(0, charIdx + 1);
+            charIdx++;
+            if (charIdx === phrase.length) {
+              deleting = true;
+              setTimeout(typeRole, 2000);
+              return;
+            }
+          } else {
+            typingTarget.textContent = phrase.slice(0, charIdx - 1);
+            charIdx--;
+            if (charIdx === 0) {
+              deleting = false;
+              roleIdx++;
+            }
+          }
+          setTimeout(typeRole, deleting ? 45 : 85);
+        }
+        setTimeout(typeRole, 800);
+
+      })();
+    </script>
+  </body>
+</html>
